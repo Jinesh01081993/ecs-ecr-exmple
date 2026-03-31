@@ -10,7 +10,7 @@ phases:
     commands:
       - echo Build started
       - echo Building the docker image
-      - docker build -t quiet-shark-jtinka .
+      - docker build -t quiet-shark-jtinka -f docker/Dockerfile .
       - docker tag quiet-shark-jtinka:latest 137307166466.dkr.ecr.ap-south-1.amazonaws.com/quiet-shark-jtinka:latest
 
 
