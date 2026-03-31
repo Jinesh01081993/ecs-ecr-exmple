@@ -1,28 +1,22 @@
 version: 0.2
-
 phases:
   pre_build:
     commands:
        - echo Logging / auth in to Amazon ECR
        - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 137307166466.dkr.ecr.ap-south-1.amazonaws.com
-
   build:
     commands:
       - echo Build started
       - echo Building the docker image
-      - docker build -t quiet-shark-jtinka -f docker/Dockerfile .
+      - docker build -t quiet-shark-jtinka .
       - docker tag quiet-shark-jtinka:latest 137307166466.dkr.ecr.ap-south-1.amazonaws.com/quiet-shark-jtinka:latest
-
-
   post_build:
     commands:
      - echo build completed
      - echo pushing in to docker ECR...
      - docker push 137307166466.dkr.ecr.ap-south-1.amazonaws.com/quiet-shark-jtinka:latest
      - echo Writing image definition file..
-     - printf '[{"name":"%s","imageUri":"%s"}]' "quiet-shark-jtinka" "137307166466.dkr.ecr.ap-south-1.amazonaws.com/quiet-shark-jtinka"  > imagedefinitions.json
-
-
+     - printf '[{"name":"%s","imageUri":"%s"}]' "quiet-shark-jtinka" "137307166466.dkr.ecr.ap-south-1.amazonaws.com/quiet-shark-jtinka" > imagedefinitions.json
 artifacts:
   files:
     - imagedefinitions.json
